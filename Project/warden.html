@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warden Dashboard</title>
+    <link rel="stylesheet" href="css/warden.css">
+    <style>
+        /* CSS for semi-transparent overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: 1000;
+            display: none; /* Initially hidden */
+        }
+
+        /* CSS for modal */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            z-index: 1001; /* Ensure modal appears above overlay */
+            display: none; /* Initially hidden */
+        }
+
+        /* CSS for navbar */
+/*** Navbar ***/
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  nav ul li a {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+  }
+  
+  nav ul li a:hover {
+    color: #555;
+  }
+
+/* CSS for content */
+.content {
+    margin-top: 50px; /* Adjusted to account for navbar height */
+    padding: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Semi-transparent overlay -->
+    <div class="overlay"></div>
+
+    <!-- Navbar Start -->
+    <center>
+        <nav>
+            <ul>
+              <li><a href="index.php">Home</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="landlord_prop.html">Landlord</a></li>
+              <li><a href="warden.html">Warden</a></li>
+            </ul>
+          </nav>
+    </center>
+    
+    <!-- Navbar End -->
+
+    <!-- Container for password prompt and content -->
+    <div class="container">
+        <!-- Password prompt -->
+        <div id="passwordPrompt">
+            <h2>This page can only be accessed by admins.</h2>
+            <button onclick="showPasswordPrompt()">Enter Admin Password</button>
+        </div>
+
+        <!-- Modal for password prompt -->
+        <div id="passwordModal" class="modal">
+            <h2>Enter Admin Password</h2>
+            <input type="password" id="adminPassword">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+
+        <!-- Content of warden dashboard -->
+        <div id="wardenContent" style="display: none;" class="content">
+            <!-- Your warden dashboard content goes here -->
+            <form action="warden.php" method="POST">
+                <h2>Register</h2>
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <center>
+                    <button type="submit" name="register">Register</button>
+                </center>
+            </form>
+            <h1>Advertisements</h1>
+            <div id="advertisementList">
+                <!-- Advertisements will be displayed here -->
+            </div>
+            <div id="map">
+                <!-- Map will be displayed here -->
+            </div>
+            <div id="popup" style="display: none;">
+                <!-- Popup window for property details -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include external JavaScript file -->
+    <script src="java/warden.js"></script>
+    <script>
+      function showPasswordPrompt() {
+          var overlay = document.querySelector('.overlay');
+          var passwordModal = document.getElementById('passwordModal');
+          overlay.style.display = 'block';
+          passwordModal.style.display = 'block';
+      }
+  
+      function hidePasswordPrompt() {
+          var overlay = document.querySelector('.overlay');
+          var passwordModal = document.getElementById('passwordModal');
+          var passwordPrompt = document.getElementById('passwordPrompt');
+          overlay.style.display = 'none';
+          passwordModal.style.display = 'none';
+          passwordPrompt.style.display = 'none'; // Hide password prompt
+      }
+  
+      function checkPassword() {
+          var password = document.getElementById('adminPassword').value;
+          // Check if the entered password is correct
+          if (password === 'admin123') {
+              hidePasswordPrompt(); // Hide password prompt and overlay
+              document.getElementById('wardenContent').style.display = 'block'; // Show warden content
+          } else {
+              alert('Incorrect password. Please try again.');
+          }
+      }
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Add the CSS styles from register.css here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="email"],
+        .input-group input[type="password"],
+        .input-group input[type="tel"],
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Dashboard</h2>
+        <form action="admin_dashboard.php" method="POST">
+            <div class="input-group">
+                <label for="user_type">Select User Type:</label>
+                <select id="user_type" name="user_type" onchange="showRegistrationForm()">
+                    <option value="">Select User Type</option>
+                    <option value="student">Student</option>
+                    <option value="landlord">Landlord</option>
+                    <option value="warden">Warden</option>
+                </select>
+            </div>
+            <div id="registration_forms">
+                <!-- Registration forms will be displayed here based on user selection -->
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showRegistrationForm() {
+            var userType = document.getElementById("user_type").value;
+            var registrationForms = document.getElementById("registration_forms");
+            // Clear any existing form
+            registrationForms.innerHTML = "";
+            // Show the selected registration form
+            if (userType === "student") {
+                registrationForms.innerHTML = '<iframe src="register.html" style="width: 100%; height: 400px;"></iframe>';
+            } else if (userType === "landlord") {
+                registrationForms.innerHTML = '<iframe src="landlord_prop.html" style="width: 100%; height: 400px;"></iframe>';
+            } else if (userType === "warden") {
+                registrationForms.innerHTML = '<iframe src="warden.html" style="width: 100%; height: 400px;"></iframe>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord Dashboard</title>
+    <link rel="stylesheet" href="css/landlord_prop.css">
+    <style>
+        /* CSS for modal */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 5% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<!-- Navbar Start -->
+<center>
+    <nav>
+        <ul>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="landlord_prop.html">Landlord</a></li>
+          <li><a href="warden.html">Warden</a></li>
+        </ul>
+      </nav>
+</center>
+
+<!-- Navbar End -->
+
+<body>
+    <h1>Landlord Dashboard</h1>
+
+    <center>
+        <!-- Landlord Registration Form -->
+        <form id="landlordRegistrationForm" action="land_reg.php" method="POST">
+            <h2>Landlord Register</h2>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <label for="telephone">Telephone:</label>
+                <input type="tel" id="telephone" name="telephone" required>
+            </div>
+            <button type="submit" name="register">Register</button>
+        </form>
+
+    </center>
+    
+
+    <!-- Property Management Section -->
+    <h2>Property Management</h2>
+    <div id="propertyList">
+        <!-- Property listings will be displayed here -->
+    </div>
+    
+    <!-- Button to open the modal -->
+<button id="openModalBtn">Add Listing</button>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <center>
+        <h1>Add Listing</h1>
+    </center>
+    
+    <form action="add_listing.php" method="POST" enctype="multipart/form-data">
+        <div class="input-group">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" required><br>
+        </div>
+        <div class="input-group">
+            <label for="longitude">Longitude:</label><br>
+            <input type="text" id="longitude" name="longitude" required><br>
+        </div>
+        <div class="input-group">
+            <label for="latitude">Latitude:</label><br>
+            <input type="text" id="latitude" name="latitude" required><br>
+        </div>
+        <div class="input-group">
+            <label for="rent">Rent:</label><br>
+            <input type="number" id="rent" name="rent" required><br>
+        </div>
+        <div class="input-group">
+            <label for="rooms">Number of Rooms:</label><br>
+            <input type="number" id="rooms" name="rooms" required><br>
+        </div>
+        <div class="input-group">
+            <label for="beds">Number of Beds</label><br>
+            <input type="number" id="beds" name="beds" required><br>
+        </div>
+        <label for="image">Image:</label><br>
+        <input type="file" id="image" name="image" required accept="image/*"><br>
+        <br>
+        <button type="submit" name="add_listing">Add Listing</button>
+        
+    </form>
+  </div>
+
+</div>
+
+<button onclick="showListings()">Show My Listings</button>
+<button onclick="showReservations()">Show My Reservations</button>
+
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("openModalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+    <script>
+
+        // Submit add property form
+        document.getElementById('propertyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Add your property addition logic here
+            alert('Property added');
+            // Clear the form and hide it
+            document.getElementById('propertyForm').reset();
+            document.getElementById('addPropertyForm').style.display = 'none';
+        });
+
+  
+        function toggleDetails(listingId) {
+            var details = document.getElementById(listingId);
+            if (details.style.display === "none") {
+                details.style.display = "block";
+            } else {
+                details.style.display = "none";
+            }
+        }
+
+        function addListing() {
+            var container = document.getElementById("listingsContainer");
+            var listingId = "listing" + container.children.length;
+            var newListing = document.createElement("div");
+            newListing.className = "listing";
+            newListing.innerHTML = `
+                <img src="img/property${container.children.length + 1}.jpg" alt="Property ${container.children.length + 1}">
+                <h4>Property Title ${container.children.length + 1}</h4>
+                <p>Location: NSBM Green University</p>
+                <p>Rent: $500/month</p>
+                <button onclick="toggleDetails('${listingId}')">View Details</button>
+                <div id="${listingId}" class="details">
+                    <p>Number of Rooms: 2</p>
+                    <p>Number of Beds: 3</p>
+                </div>
+            `;
+            container.appendChild(newListing);
+        }
+
+        function showListings() {
+            // Redirect to the page that displays listings
+            window.location.href = "show_listings.php";
+        }
+
+        function showReservations() {
+            window.location.href = "reserve_property.php";
+        }
+
+
+    </script>
+</body>
+</html>

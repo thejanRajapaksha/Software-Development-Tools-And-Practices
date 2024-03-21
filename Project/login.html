@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <header>
+        <h1>Login</h1>
+    </header>
+
+    <!-- Navbar Start -->
+    <center>
+        <nav>
+            <ul>
+              <li><a href="index.php">Home</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="landlord_prop.html">Landlord</a></li>
+              <li><a href="warden.html">Warden</a></li>
+            </ul>
+          </nav>
+    </center>
+    
+    <!-- Navbar End -->
+    
+    <main>
+        <form action="login.php" method="post">
+            <h2>Login Form</h2>
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="">Select Category</option>
+                <option value="student">Student</option>
+                <option value="landlord">Landlord</option>
+                <option value="warden">Warden</option>
+            </select><br><br>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="register.html">Register here</a>.</p>
+        </form>
+        
+    </main>
+    <footer>
+        <p>&copy; 2024 NSBM Green University</p>
+    </footer>
+</body>
+</html>
